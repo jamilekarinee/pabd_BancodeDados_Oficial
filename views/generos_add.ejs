@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Editar Gênero</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <script>
+            function altera(Id_Genero){  
+              $.ajax({            
+                url: "/generos/edit/" + Id_Genero, 
+                type: "PUT", 
+                data: "nome="    + $("#inputnome").val(), 
+                success: function (res) { 
+                  $(location).attr("href", "/generos/listar"); // id
+                },
+              });
+        }
+
+    </script>
+  </head>
+  <body>
+    <% if(resultado.Id_Genero){%>
+      <h1>Editar Gênero</h1>
+      <form method="PUT" action="/generos/edit/<%= resultado.Id_Genero%>" class="row g-3">        
+      <%} else {%>        
+      <ul>
+        <li><a href="/generos/listar">Gêneros Cadastrados</a></li>
+      </ul>
+      
+      <h1>Cadastro de Gêneros</h1>
+    <form method="post" action="/generos/add" class="row g-3">
+    <%}%>
+      <div class="col-md-6">
+        <label for="nomes" class="form-label">Nome</label>
+        <% if(resultado.Id_Genero) {%>
+          <input type="text" class="form-control" id="inputnome" name="nome" placeholder="Escreva aqui o nome do Gênero" value="<%= resultado.Nome_Genero%>">
+
+          <%} else {%>
+        <input type="text" class="form-control" id="inputnome" name="nome" placeholder="Escreva aqui o nome do Gênero">
+        <%}%>
+  
+      <div class="col-md-6">
+        <% if(resultado.Id_Genero){%>          
+          <button type="button" onclick = "altera(<%=resultado.Id_Genero%>);" class="btn btn-primary">Salvar</button>
+        <%} else {%>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        <%}%>
+
+      </div>      
+      </div>
+
+    </form>
+
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+    </script>
+</html>
