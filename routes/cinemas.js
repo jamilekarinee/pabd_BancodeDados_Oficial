@@ -43,6 +43,35 @@ router.post('/add', function(req, res ){
   })
 });
 
+/* editar CINEMAS */ 
+router.get('/edit/:id', function (req, res) {
+  let id  = req.params.id;
+  let cmd = "SELECT * FROM tb_cinema WHERE id_cinema = ?;";
+  console.log('CHEGOU'); 
+  db.query(cmd, [id], function (erro, listagem) {
+    if (erro) {
+      res.send(erro);
+    }
+    console.log('AQ TB'); 
+
+    res.render('cinemas_add', { resultado: listagem[0] });
+  });
+});
+
+/* editar CINEMAS */ 
+router.put('/edit/:id', function (req, res) {
+  let id       = req.params.id;
+  let nome     = req.body.nome;
+  let endereco = req.body.endereco;
+  let cmd = "UPDATE tb_cinema SET nome_cinema=?, endereco_cinema=? WHERE id_cinema=? ";
+  db.query(cmd, [nome, endereco, id], function (erro) {
+    if (erro) {
+      res.send(erro);
+    }
+    res.redirect(303, '/cinemas/listar');
+  })
+});
+
 /* excluir CINEMAS */
 router.delete('/delete/:id', function(req, res ){
   let id        = req.params.id; 
@@ -54,6 +83,5 @@ router.delete('/delete/:id', function(req, res ){
     res.redirect(303, '/cinemas/listar'); 
   })
 });
-
 
 module.exports = router;   
